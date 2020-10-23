@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>海报</title>
+        <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+        <script src="./canvas2image.js"></script>
+        <link rel="stylesheet" href="">
+        <style type="text/css">
+.main {
+    margin: 0 auto;
+    width: 750px;
+    height: 1230px;
+    background: url('./back.png') no-repeat;
+    background-size: contain;
+    overflow: hidden;
+}
+
+    .content {
+        margin: 50px 35px 0;
+        background: #fff;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .tag {
+        background: url('./tag.png') no-repeat;
+        width: 224px;
+        height: 221px;
+        background-size: contain;
+        position: absolute;
+        top: 100px;
+        right: -15px;
+    }
+
+    .blue {
+        background: #1264FF;
+        width: 70px;
+        height: 8px;
+        margin: 70px 0 0 38px;
+    }
+
+    .title {
+        font-family: PingFangSC-Medium;
+        font-size: 40px;
+        color: #373737;
+        letter-spacing: 0;
+        line-height: 52px;
+        padding: 16px 34px 20px 32px;
+    }
+
+    .time {
+        font-family: PingFangSC-Regular;
+        font-size: 30px;
+        color: #7C7C7C;
+        letter-spacing: 0;
+        line-height: 40px;
+        padding-left: 32px;
+    }
+
+    .year {
+        padding-right: 10px;
+    }
+
+    .pic {
+        width: 600px;
+        height: 400px;
+        margin: 0 auto;
+        padding-top: 30px;
+        padding-bottom: 40px;
+    }
+
+    .pic img {
+        width: 600px;
+        height: 400px;
+    }
+        </style>
+    </head>
+
+    <body>
+        <input type="button" value="create png" class="btn" onclick="createPng();" />
+        <div class="main">
+            <div class="content">
+                <div class="blue"></div>
+                <div class="title">深圳市政府新闻办辟谣：深圳直辖传言毫无根据</div>
+                <div class="time">
+                    <span class="year">2018.09.09</span><span>11:55</span>
+                </div>
+                <div class="pic">
+                    <img src="./03b1b00c4bc52000.jpg" alt="" class="image" id="pic">
+                </div>
+                <div class="tag"></div>
+            </div>
+        </div>
+        <input type="button" value="create png" class="btn" onclick="createPng();" />
+    </body>
+<script>
+    function base64ToBlob(code) {
+        let parts = code.split(';base64,');
+        let contentType = parts[0].split(':')[1];
+        let raw = window.atob(parts[1]);
+        let rawLength = raw.length;
+
+        let uInt8Array = new Uint8Array(rawLength);
+
+        for (let i = 0; i < rawLength; ++i) {
+            uInt8Array[i] = raw.charCodeAt(i);
+        }
+        return new Blob([uInt8Array], {
+            type: contentType
+        });
+    }
+window.img = '';
+html2canvas(document.querySelector(".main")).then(canvas => {
+    img = Canvas2Image.convertToPNG(canvas, 375, 615);
+    console.log(img.src);
+    createPng();
+    /*
+    var Blob = base64ToBlob(img.src);
+    console.log(Blob);
+    var a = document.createElement("a");
+    a.innerHTML = "谣言";
+    a.download = "谣言";
+    a.href = URL.createObjectURL(Blob);
+    document.body.appendChild(a);
+    */
+});
+function createPng() {
+    alert(img.src);
+}
+</script>
+</html>

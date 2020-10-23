@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>海报</title>
+    <script src="/js/html2canvas.js"></script>
+    <script src="/js/canvas2image.js"></script>
+    <script type="text/javascript" src="http://libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="">
+    <style type="text/css">
+        .main {
+            margin: 0 auto;
+            width: 750px;
+            height: 1230px;
+            background: url('/images/piyao/back.png') no-repeat;
+            background-size: contain;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .content {
+            margin: 50px 35px 0;
+            background: #fff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .tag {
+            background: url('/images/piyao/tag.png') no-repeat;
+            width: 224px;
+            height: 221px;
+            background-size: contain;
+            position: absolute;
+            top: 100px;
+            right: -15px;
+        }
+
+        .blue {
+            background: #1264FF;
+            width: 70px;
+            height: 8px;
+            margin: 70px 0 0 38px;
+        }
+
+        .title {
+            font-family: PingFangSC-Medium;
+            font-size: 40px;
+            color: #373737;
+            letter-spacing: 0;
+            line-height: 52px;
+            padding: 16px 34px 20px 32px;
+        }
+
+        .time {
+            font-family: PingFangSC-Regular;
+            font-size: 30px;
+            color: #7C7C7C;
+            letter-spacing: 0;
+            line-height: 40px;
+            padding-left: 32px;
+        }
+
+        .year {
+            padding-right: 10px;
+        }
+
+        .pic {
+            width: 600px;
+            height: 400px;
+            margin: 0 auto;
+            padding-top: 30px;
+            padding-bottom: 40px;
+        }
+
+        .pic img {
+            width: 600px;
+            height: 400px;
+        }
+
+        .qrcode_wrap {
+            background: url('/cache/{=$qrcode=}') no-repeat;
+            width: 114px;
+            height: 114px;
+            background-size: contain;
+            position: absolute;
+            top: 1000px;
+            right: 90px;
+        }
+
+        .qrcode_wrap img {
+            width: 140px;
+            height: 140px;
+            position: absolute;
+            top: 1000px;
+            right: 200px;
+        }
+    </style>
+</head>
+
+<body>
+{=if !$articleInfo.poster=}
+    <input type="button" value="生成海报" class="btn" onclick="createPng();" />
+{=/if=}
+    <div class="main">
+        <div class="content">
+            <div class="blue"></div>
+            <div class="title">{=$articleInfo.title=}</div>
+            <div class="time">
+                <span class="year">{=$articleInfo.ctime|date_format:'%Y-%m-%d'=}</span><span>{=$articleInfo.ctime|date_format:'%H:%M'=}</span>
+            </div>
+            <div class="pic">
+                <img src="/cache/{=$mainPic=}" alt="" class="image" id="pic">
+            </div>
+            <div class="tag"></div>
+        </div>
+        <div class="qrcode_wrap">
+            <!--<img src="/cache/{=$qrcode=}" alt="" class="image" />-->
+        </div>
+    </div>
+{=if !$articleInfo.poster=}
+    <input type="button" value="生成海报" class="btn" onclick="createPng();" />
+{=/if=}
+</body>
+<script>
+    function base64ToBlob(code) {
+        let parts = code.split(';base64,');
+        let contentType = parts[0].split(':')[1];
+        let raw = window.atob(parts[1]);
+        let rawLength = raw.length;
+
+        let uInt8Array = new Uint8Array(rawLength);
+
+        for (let i = 0; i < rawLength; ++i) {
+            uInt8Array[i] = raw.charCodeAt(i);
+        }
+        return new Blob([uInt8Array], {
+            type: contentType
+        });
+    }
+    window.img = '';
+    html2canvas(document.querySelector(".main"), {scale:2,logging:false}).then(canvas => {
+        img = Canvas2Image.convertToPNG(canvas, 375, 615);
+        console.log(img.src);
+        /*
+            var Blob = base64ToBlob(img.src);
+            console.log(Blob);
+            var a = document.createElement("a");
+            a.innerHTML = "谣言";
+            a.download = "谣言";
+            a.href = URL.createObjectURL(Blob);
+            document.body.appendChild(a);
+        */
+    });
+    function createPng() {
+        $('.btn').attr("disabled", "disabled");
+        var api = '/article/uploadPoster';
+        $.ajax({
+            url: api,
+            type: 'post',
+            data: 'data=' + img.src.replace(/\+/g, "%2B") + '&id={=$articleInfo.article_id=}&format=json',
+            success: function (ret) {
+                console.log(ret);
+                if (ret.result.status.code == 0) {
+                    alert('海报生成，请关闭页面');
+                } else {
+                    alert(ret.result.status.msg);
+                    $('.btn').removeAttr("disabled")
+                }
+            }
+        });
+    }
+</script>
+</html>

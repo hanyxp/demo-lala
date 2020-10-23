@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>海报</title>
+	<link rel="stylesheet" href="">
+	<script src="html2canvas.js"></script>
+	<script src="/js/html2canvas.js"></script>
+    <script src="/js/canvas2image.js"></script>
+    <script type="text/javascript" src="http://libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+	<style type="text/css">
+	.poster-container {
+	    overflow: hidden;
+	}
+	#poster {
+	    margin: 0 auto;
+	    width: 660px;
+	    height: 1088px;
+	    background: url('//n.sinaimg.cn/finance/piyao/back.png') no-repeat;
+	    background-size: contain;
+	    overflow: hidden;
+	    position: fixed;
+	    top: 0;
+	    left: -700px;
+	    z-index: 105;
+	}
+    #poster .ma {
+	    width: 123px;
+	    height: 123px;
+	    background-size: contain;
+	    position: absolute;
+	    bottom: 107px;
+	    right: 67px;
+	}
+	#poster .ma img{
+	    width: 100%;
+	    height: 100%;
+	}
+	#poster_content {
+	    background: #fff;
+	    margin: 44px 31px 0; 
+	    overflow: hidden;
+	    position: relative;
+	}
+	#poster_content .tag {
+	        background: url('//n.sinaimg.cn/finance/piyao/tag.png') no-repeat;
+	        width: 224px;
+	        height: 221px;
+	        background-size: contain;
+	        position: absolute;
+	        top: 60px;
+	        right: -15px;
+	    }
+	   #poster_content .blue {
+	        background: #1264FF;
+	        width:62px;
+	        height: 7px;
+	        margin: 62.5px 0 0 33.4px;
+	    }
+	    #poster_content .title {
+	        font-family: PingFangSC-Medium;
+	        font-size: 35.2px;
+	        color: #373737;
+	        letter-spacing: 0;
+	        line-height: 45.76px;
+	        padding: 13px 30px 17px 28px;
+	    }
+	    #poster_content .time {
+	        font-family: PingFangSC-Regular;
+	        font-size: 26.4px;
+	        color: #7C7C7C;
+	        letter-spacing: 0;
+	        line-height: 35.2px;
+	        padding-left: 28px;
+	    }
+	    #poster_content .year {
+	        padding-right: 10px;
+	    }
+	    #poster_content .pic {
+	        width: 528px;
+	        height: 352px;
+	        margin: 0 auto;
+	        padding-top: 25px;
+	        padding-bottom: 35px;
+	    }
+	    #poster_content .pic img {
+	         width: 100%;
+	         height: 352px;
+	    }
+	.pic-container {
+	    /*display: none;*/
+	    position: fixed;
+	    height: 100%;
+	    width: 100%;
+	    z-index: 101;
+	    top: 0;
+	    left: 0;
+	    overflow: hidden;
+	}
+	#poster_pic {
+	    margin: 0 auto;
+	    width: 320px;
+	    height: 544px;
+	    z-index: 110;
+	    position: relative;
+	    top: 20px;
+	}
+	#poster_pic img{
+	    width: 100%;
+	 }
+/*	.tip {
+        opacity: 0.95;
+        background-image: linear-gradient(-51deg, #4ABCFE 0%, #1264FF 83%);
+        font-family: PingFangSC-Regular;
+        font-size: .264rem;
+        color: #FFFFFF;
+        letter-spacing: 0;
+        line-height: .88rem;
+        text-align: center;
+        height: .88rem;
+        overflow: hidden;
+    }
+	.close {
+	    padding: 0 .2rem;
+	}*/
+	.poster_mask {
+	    position: fixed;
+	    opacity: 0.52;
+	    background: #000000;
+	    width: 100%;
+	    height: 100%;
+	    top: 0;
+	    left: 0;
+	    z-index: 103;
+	}
+	</style>
+</head>
+<body>
+<div id="poster">
+    <div id="poster_content">
+        <div class="blue"></div>
+        <div class="title">Hello</div>
+        <div class="time">
+            <span class="year">2018</span><span>11:55</span>
+        </div>
+        <!-- 正文图片地址 -->
+        <div class="pic">
+            <img src="//z4.sinaimg.cn/auto/resize?img=http%3A%2F%2Fs3.msl.sina.cn%2F03d106188d851000%2F03d106188f052000.jpg&amp;size=250_0" alt="" class="image">
+        </div>
+        <div class="tag"></div>
+    </div>
+    <!-- 二维码地址 -->
+    <div class="ma"><img src="//z4.sinaimg.cn/auto/resize?img=http%3A%2F%2Fs3.msl.sina.cn%2F03d106188d851000%2F03d106188f052000.jpg&amp;size=250_0" alt=""></div>
+</div>
+<div class="pic-container">
+    <div id="poster_pic">
+        <img src="" alt="">
+    </div>
+    <div class="poster_mask"></div>
+</div>
+</body>
+<script src="html2canvas.js"></script>
+<script>
+    html2canvas(document.getElementById("poster"), {scale:2,logging:false,useCORS:true}).then(function(canvas) {
+        var dataUrl = canvas.toDataURL();
+        document.getElementById("poster_pic").querySelector('img').src = dataUrl;
+    });
+</script>
+</html>
