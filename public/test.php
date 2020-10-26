@@ -25,4 +25,5 @@ $c = new \ReflectionClass(B::class);
 //var_dump($c);
 var_dump($c->getMethods(ReflectionMethod::IS_PUBLIC));
 $a = new A();
+var_dump($a);
 
