@@ -27,4 +27,5 @@ var_dump($c->getMethods(ReflectionMethod::IS_PUBLIC));
 
 var_dump("some");
 $a = new A();
+var_dump($a);
 
